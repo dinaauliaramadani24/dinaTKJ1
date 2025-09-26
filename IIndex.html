@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Entry Data Siswa Baru - SMK N 1 Purbalingga</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #06b6d4;
+            --dark-color: #1f2937;
+            --light-color: #f3f4f6;
+        }
+
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f5f9;
+            transform: scale(1.01);
+        }
+
+        .badge {
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+
+        .search-box input {
+            padding-left: 45px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            margin: 0 2px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .custom-toast {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-card {
+                margin-bottom: 15px;
+            }
+            
+            .table-responsive {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                SMK N 1 Purbalingga
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-house-door me-1"></i> Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showDataSection()"><i class="bi bi-table me-1"></i> Data Siswa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showExportSection()"><i class="bi bi-download me-1"></i> Export Data</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card animate__animated animate__fadeInLeft">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Total Siswa</h6>
+                            <h3 class="mb-0" id="totalSiswa">0</h3>
+                        </div>
+                        <i class="bi bi-people-fill" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Laki-laki</h6>
+                            <h3 class="mb-0" id="totalLaki">0</h3>
+                        </div>
+                        <i class="bi bi-gender-male" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Perempuan</h6>
+                            <h3 class="mb-0" id="totalPerempuan">0</h3>
+                        </div>
+                        <i class="bi bi-gender-female" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Jurusan</h6>
+                            <h3 class="mb-0" id="totalJurusan">0</h3>
+                        </div>
+                        <i class="bi bi-building" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Form Section -->
+        <div id="inputSection" class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card animate__animated animate__fadeInUp">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Form Entry Data Siswa Baru</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="siswaForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">NISN <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nisn" required maxlength="10" pattern="[0-9]{10}">
+                                    <div class="invalid-feedback">NISN harus 10 digit angka</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nama" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="jenisKelamin" required>
+                                        <option value="">Pilih Jenis Kelamin</option>
+                                        <option value="L">Laki-laki</option>
+                                        <option value="P">Perempuan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tempat Lahir <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="tempatLahir" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="tanggalLahir" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Agama <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="agama" required>
+                                        <option value="">Pilih Agama</option>
+                                        <option value="Islam">Islam</option>
+                                        <option value="Kristen">Kristen</option>
+                                        <option value="Katolik">Katolik</option>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Buddha">Buddha</option>
+                                        <option value="Konghucu">Konghucu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jurusan <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="jurusan" required>
+                                        <option value="">Pilih Jurusan</option>
+                                        <option value="TKJ">Teknik Komputer dan Jaringan</option>
+                                        <option value="RPL">Rekayasa Perangkat Lunak</option>
+                                        <option value="MM">Multimedia</option>
+                                        <option value="AK">Akuntansi</option>
+                                        <option value="OTKP">Otomatisasi dan Tata Kelola Perkantoran</option>
+                                        <option value="TB">Tata Boga</option>
+                                        <option value="TBSM">Teknik Bisnis Sepeda Motor</option>
+                                        <option value="TKR">Teknik Kendaraan Ringan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">No. Telepon <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="telepon" required pattern="[0-9]{10,13}">
+                                    <div class="invalid-feedback">Nomor telepon harus 10-13 digit</div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Alamat Lengkap <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="alamat" rows="3" required></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nama Ayah <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="namaAyah" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Pekerjaan Ayah <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="pekerjaanAyah" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nama Ibu <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="namaIbu" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Pekerjaan Ibu <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="pekerjaanIbu" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email (Opsional)</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                                    <i class="bi bi-arrow-clockwise me-1"></i> Reset
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-save me-1"></i> Simpan Data
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div id="dataSection" class="row" style="display: none;">
+            <div class="col-12">
+                <div class="card animate__animated animate__fadeInUp">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="bi bi-table me-2"></i>Data Siswa</h4>
+                        <button class="btn btn-light btn-sm" onclick="showInputSection()">
+                            <i class="bi bi-plus-circle me-1"></i> Tambah Siswa
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="search-box">
+                                    <i class="bi bi-search"></i>
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Cari siswa...">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-select" id="filterJurusan">
+                                    <option value="">Semua Jurusan</option>
+                                    <option value="TKJ">Teknik Komputer dan Jaringan</option>
+                                    <option value="RPL">Rekayasa Perangkat Lunak</option>
+                                    <option value="MM">Multimedia</option>
+                                    <option value="AK">Akuntansi</option>
+                                    <option value="OTKP">Otomatisasi dan Tata Kelola Perkantoran</option>
+                                    <option value="TB">Tata Boga</option>
+                                    <option value="TBSM">Teknik Bisnis Sepeda Motor</option>
+                                    <option value="TKR">Teknik Kendaraan Ringan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NISN</th>
+                                        <th>Nama</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Jurusan</th>
+                                        <th>Telepon</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="siswaTableBody">
+                                    <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div id="exportSection" class="row" style="display: none;">
+            <div class="col-lg-6 mx-auto">
+                <div class="card animate__animated animate__fadeInUp">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="bi bi-download me-2"></i>Export Data</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-3">
+                            <button class="btn btn-success btn-lg" onclick="exportToExcel()">
+                                <i class="bi bi-file-earmark-excel me-2"></i>Export ke Excel
+                            </button>
+                            <button class="btn btn-danger btn-lg" onclick="exportToPDF()">
+                                <i class="bi bi-file-earmark-pdf me-2"></i>Export ke PDF
+                            </button>
+                            <button class="btn btn-info btn-lg" onclick="exportToCSV()">
+                                <i class="bi bi-filetype-csv me-2"></i>Export ke CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>SMK N 1 Purbalingga</h5>
+                    <p>Jl. Jend. Sudirman No. 123, Purbalingga, Jawa Tengah 53311</p>
+                    <p><i class="bi bi-telephone me-2"></i>(0281) 891023</p>
+                    <p><i class="bi bi-envelope me-2"></i>info@smkn1purbalingga.sch.id</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Tentang Aplikasi</h5>
+                    <p>Sistem Entry Data Siswa Baru SMK N 1 Purbalingga</p>
+                    <p>&copy; 2024 SMK N 1 Purbalingga. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Data Siswa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">NISN <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editNisn" required maxlength="10" pattern="[0-9]{10}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editNama" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editJenisKelamin" required>
+                                    <option value="L">Laki-laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tempat Lahir <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editTempatLahir" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="editTanggalLahir" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Agama <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editAgama" required>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Konghucu">Konghucu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Jurusan <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editJurusan" required>
+                                    <option value="TKJ">Teknik Komputer dan Jaringan</option>
+                                    <option value="RPL">Rekayasa Perangkat Lunak</option>
+                                    <option value="MM">Multimedia</option>
+                                    <option value="AK">Akuntansi</option>
+                                    <option value="OTKP">Otomatisasi dan Tata Kelola Perkantoran</option>
+                                    <option value="TB">Tata Boga</option>
+                                    <option value="TBSM">Teknik Bisnis Sepeda Motor</option>
+                                    <option value="TKR">Teknik Kendaraan Ringan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">No. Telepon <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="editTelepon" required pattern="[0-9]{10,13}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Alamat Lengkap <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="editAlamat" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEdit()">
+                        <i class="bi bi-save me-1"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-person-lines-fill me-2"></i>Detail Data Siswa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detailContent">
+                    <!-- Detail content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SheetJS for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- jspdf-autotable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+        // Data storage
+        let siswaData = JSON.parse(localStorage.getItem('siswaData')) || [];
+        let currentEditId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            renderTable();
+            
+            // Form validation
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('siswaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (this.checkValidity()) {
+                showLoading();
+                
+                const siswa = {
+                    id: Date.now(),
+                    nisn: document.getElementById('nisn').value,
+                    nama: document.getElementById('nama').value,
+                    jenisKelamin: document.getElementById('jenisKelamin').value,
+                    tempatLahir: document.getElementById('tempatLahir').value,
+                    tanggalLahir: document.getElementById('tanggalLahir').value,
+                    agama: document.getElementById('agama').value,
+                    jurusan: document.getElementById('jurusan').value,
+                    telepon: document.getElementById('telepon').value,
+                    alamat: document.getElementById('alamat').value,
+                    namaAyah: document.getElementById('namaAyah').value,
+                    pekerjaanAyah: document.getElementById('pekerjaanAyah').value,
+                    namaIbu: document.getElementById('namaIbu').value,
+                    pekerjaanIbu: document.getElementById('pekerjaanIbu').value,
+                    email: document.getElementById('email').value,
+                    tanggalDaftar: new Date().toISOString()
+                };
+                
+                // Check if NISN already exists
+                if (siswaData.some(s => s.nisn === siswa.nisn)) {
+                    showToast('NISN sudah terdaftar!', 'warning');
+                    hideLoading();
+                    return;
+                }
+                
+                siswaData.push(siswa);
+                localStorage.setItem('siswaData', JSON.stringify(siswaData));
+                
+                setTimeout(() => {
+                    hideLoading();
+                    showToast('Data siswa berhasil disimpan!', 'success');
+                    resetForm();
+                    updateStats();
+                    renderTable();
+                }, 1000);
+            }
+        });
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('siswaForm').reset();
+            document.getElementById('siswaForm').classList.remove('was-validated');
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalSiswa').textContent = siswaData.length;
+            document.getElementById('totalLaki').textContent = siswaData.filter(s => s.jenisKelamin === 'L').length;
+            document.getElementById('totalPerempuan').textContent = siswaData.filter(s => s.jenisKelamin === 'P').length;
+            
+            const uniqueJurusan = [...new Set(siswaData.map(s => s.jurusan))];
+            document.getElementById('totalJurusan').textContent = uniqueJurusan.length;
+        }
+
+        // Render table
+        function renderTable(data = siswaData) {
+            const tbody = document.getElementById('siswaTableBody');
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">Tidak ada data siswa</td></tr>';
+                return;
+            }
+            
+            data.forEach((siswa, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${siswa.nisn}</td>
+                    <td>${siswa.nama}</td>
+                    <td>
+                        <span class="badge ${siswa.jenisKelamin === 'L' ? 'bg-primary' : 'bg-danger'}">
+                            ${siswa.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan'}
+                        </span>
+                    </td>
+                    <td>${getJurusanName(siswa.jurusan)}</td>
+                    <td>${siswa.telepon}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info action-btn" onclick="showDetail(${siswa.id})" title="Detail">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning action-btn" onclick="editSiswa(${siswa.id})" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger action-btn" onclick="deleteSiswa(${siswa.id})" title="Hapus">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Get jurusan name
+        function getJurusanName(jurusan) {
+            const jurusanNames = {
+                'TKJ': 'Teknik Komputer dan Jaringan',
+                'RPL': 'Rekayasa Perangkat Lunak',
+                'MM': 'Multimedia',
+                'AK': 'Akuntansi',
+                'OTKP': 'Otomatisasi dan Tata Kelola Perkantoran',
+                'TB': 'Tata Boga',
+                'TBSM': 'Teknik Bisnis Sepeda Motor',
+                'TKR': 'Teknik Kendaraan Ringan'
+            };
+            return jurusanNames[jurusan] || jurusan;
+        }
+
+        // Show detail
+        function showDetail(id) {
+            const siswa = siswaData.find(s => s.id === id);
+            if (!siswa) return;
+            
+            const content = document.getElementById('detailContent');
+            content.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-primary">Data Pribadi</h6>
+                        <p><strong>NISN:</strong> ${siswa.nisn}</p>
+                        <p><strong>Nama Lengkap:</strong> ${siswa.nama}</p>
+                        <p><strong>Jenis Kelamin:</strong> ${siswa.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</p>
+                        <p><strong>Tempat Lahir:</strong> ${siswa.tempatLahir}</p>
+                        <p><strong>Tanggal Lahir:</strong> ${new Date(siswa.tanggalLahir).toLocaleDateString('id-ID')}</p>
+                        <p><strong>Agama:</strong> ${siswa.agama}</p>
+                        <p><strong>Email:</strong> ${siswa.email || '-'}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-primary">Data Sekolah</h6>
+                        <p><strong>Jurusan:</strong> ${getJurusanName(siswa.jurusan)}</p>
+                        <p><strong>No. Telepon:</strong> ${siswa.telepon}</p>
+                        <p><strong>Alamat:</strong> ${siswa.alamat}</p>
+                        <p><strong>Tanggal Pendaftaran:</strong> ${new Date(siswa.tanggalDaftar).toLocaleString('id-ID')}</p>
+                        
+                        <h6 class="text-primary mt-3">Data Orang Tua</h6>
+                        <p><strong>Nama Ayah:</strong> ${siswa.namaAyah}</p>
+                        <p><strong>Pekerjaan Ayah:</strong> ${siswa.pekerjaanAyah}</p>
+                        <p><strong>Nama Ibu:</strong> ${siswa.namaIbu}</p>
+                        <p><strong>Pekerjaan Ibu:</strong> ${siswa.pekerjaanIbu}</p>
+                    </div>
+                </div>
+            `;
+            
+            new bootstrap.Modal(document.getElementById('detailModal')).show();
+        }
+
+        // Edit siswa
+        function editSiswa(id) {
+            const siswa = siswaData.find(s => s.id === id);
+            if (!siswa) return;
+            
+            currentEditId = id;
+            
+            document.getElementById('editNisn').value = siswa.nisn;
+            document.getElementById('editNama').value = siswa.nama;
+            document.getElementById('editJenisKelamin').value = siswa.jenisKelamin;
+            document.getElementById('editTempatLahir').value = siswa.tempatLahir;
+            document.getElementById('editTanggalLahir').value = siswa.tanggalLahir;
+            document.getElementById('editAgama').value = siswa.agama;
+            document.getElementById('editJurusan').value = siswa.jurusan;
+            document.getElementById('editTelepon').value = siswa.telepon;
+            document.getElementById('editAlamat').value = siswa.alamat;
+            
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+
+        // Save edit
+        function saveEdit() {
+            const form = document.getElementById('editForm');
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+            
+            showLoading();
+            
+            const siswaIndex = siswaData.findIndex(s => s.id === currentEditId);
+            if (siswaIndex === -1) return;
+            
+            // Check if NISN already exists (excluding current record)
+            const newNisn = document.getElementById('editNisn').value;
+            if (siswaData.some(s => s.nisn === newNisn && s.id !== currentEditId)) {
+                showToast('NISN sudah terdaftar!', 'warning');
+                hideLoading();
+                return;
+            }
+            
+            siswaData[siswaIndex] = {
+                ...siswaData[siswaIndex],
+                nisn: newNisn,
+                nama: document.getElementById('editNama').value,
+                jenisKelamin: document.getElementById('editJenisKelamin').value,
+                tempatLahir: document.getElementById('editTempatLahir').value,
+                tanggalLahir: document.getElementById('editTanggalLahir').value,
+                agama: document.getElementById('editAgama').value,
+                jurusan: document.getElementById('editJurusan').value,
+                telepon: document.getElementById('editTelepon').value,
+                alamat: document.getElementById('editAlamat').value
+            };
+            
+            localStorage.setItem('siswaData', JSON.stringify(siswaData));
+            
+            setTimeout(() => {
+                hideLoading();
+                bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+                showToast('Data siswa berhasil diperbarui!', 'success');
+                updateStats();
+                renderTable();
+            }, 1000);
+        }
+
+        // Delete siswa
+        function deleteSiswa(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus data siswa ini?')) {
+                showLoading();
+                
+                setTimeout(() => {
+                    siswaData = siswaData.filter(s => s.id !== id);
+                    localStorage.setItem('siswaData', JSON.stringify(siswaData));
+                    
+                    hideLoading();
+                    showToast('Data siswa berhasil dihapus!', 'success');
+                    updateStats();
+                    renderTable();
+                }, 500);
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filtered = siswaData.filter(s => 
+                s.nama.toLowerCase().includes(searchTerm) ||
+                s.nisn.includes(searchTerm) ||
+                s.jurusan.toLowerCase().includes(searchTerm)
+            );
+            renderTable(filtered);
+        });
+
+        // Filter by jurusan
+        document.getElementById('filterJurusan').addEventListener('change', function() {
+            const jurusan = this.value;
+            const filtered = jurusan ? siswaData.filter(s => s.jurusan === jurusan) : siswaData;
+            renderTable(filtered);
+        });
+
+        // Export functions
+        function exportToExcel() {
+            if (siswaData.length === 0) {
+                showToast('Tidak ada data untuk diekspor!', 'warning');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const ws = XLSX.utils.json_to_sheet(siswaData.map(s => ({
+                    'NISN': s.nisn,
+                    'Nama': s.nama,
+                    'Jenis Kelamin': s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan',
+                    'Tempat Lahir': s.tempatLahir,
+                    'Tanggal Lahir': s.tanggalLahir,
+                    'Agama': s.agama,
+                    'Jurusan': getJurusanName(s.jurusan),
+                    'Telepon': s.telepon,
+                    'Alamat': s.alamat,
+                    'Nama Ayah': s.namaAyah,
+                    'Pekerjaan Ayah': s.pekerjaanAyah,
+                    'Nama Ibu': s.namaIbu,
+                    'Pekerjaan Ibu': s.pekerjaanIbu,
+                    'Email': s.email || '-',
+                    'Tanggal Pendaftaran': new Date(s.tanggalDaftar).toLocaleString('id-ID')
+                })));
+                
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Data Siswa');
+                XLSX.writeFile(wb, `Data_Siswa_SMKN1_Purbalingga_${new Date().toISOString().split('T')[0]}.xlsx`);
+                
+                hideLoading();
+                showToast('Data berhasil diekspor ke Excel!', 'success');
+            }, 1000);
+        }
+
+        function exportToPDF() {
+            if (siswaData.length === 0) {
+                showToast('Tidak ada data untuk diekspor!', 'warning');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Header
+                doc.setFontSize(20);
+                doc.text('Data Siswa Baru', 105, 20, { align: 'center' });
+                doc.setFontSize(16);
+                doc.text('SMK N 1 Purbalingga', 105, 30, { align: 'center' });
+                doc.text(`Tahun Ajaran ${new Date().getFullYear()}/${new Date().getFullYear() + 1}`, 105, 40, { align: 'center' });
+                
+                // Table
+                const tableData = siswaData.map(s => [
+                    s.nisn,
+                    s.nama,
+                    s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan',
+                    getJurusanName(s.jurusan),
+                    s.telepon
+                ]);
+                
+                doc.autoTable({
+                    head: [['NISN', 'Nama', 'Jenis Kelamin', 'Jurusan', 'Telepon']],
+                    body: tableData,
+                    startY: 60,
+                    styles: { fontSize: 10 },
+                    headStyles: { fillColor: [30, 58, 138] }
+                });
+                
+                doc.save(`Data_Siswa_SMKN1_Purbalingga_${new Date().toISOString().split('T')[0]}.pdf`);
+                
+                hideLoading();
+                showToast('Data berhasil diekspor ke PDF!', 'success');
+            }, 1000);
+        }
+
+        function exportToCSV() {
+            if (siswaData.length === 0) {
+                showToast('Tidak ada data untuk diekspor!', 'warning');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const headers = ['NISN', 'Nama', 'Jenis Kelamin', 'Tempat Lahir', 'Tanggal Lahir', 'Agama', 'Jurusan', 'Telepon', 'Alamat', 'Nama Ayah', 'Pekerjaan Ayah', 'Nama Ibu', 'Pekerjaan Ibu', 'Email', 'Tanggal Pendaftaran'];
+                const csvContent = [
+                    headers.join(','),
+                    ...siswaData.map(s => [
+                        s.nisn,
+                        s.nama,
+                        s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan',
+                        s.tempatLahir,
+                        s.tanggalLahir,
+                        s.agama,
+                        getJurusanName(s.jurusan),
+                        s.telepon,
+                        `"${s.alamat}"`,
+                        s.namaAyah,
+                        s.pekerjaanAyah,
+                        s.namaIbu,
+                        s.pekerjaanIbu,
+                        s.email || '-',
+                        new Date(s.tanggalDaftar).toLocaleString('id-ID')
+                    ].join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `Data_Siswa_SMKN1_Purbalingga_${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+                
+                hideLoading();
+                showToast('Data berhasil diekspor ke CSV!', 'success');
+            }, 1000);
+        }
+
+        // Section navigation
+        function showInputSection() {
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('dataSection').style.display = 'none';
+            document.getElementById('exportSection').style.display = 'none';
+        }
+
+        function showDataSection() {
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('dataSection').style.display = 'block';
+            document.getElementById('exportSection').style.display = 'none';
+            renderTable();
+        }
+
+        function showExportSection() {
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('dataSection').style.display = 'none';
+            document.getElementById('exportSection').style.display = 'block';
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.querySelector('.toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast';
+            
+            const icons = {
+                success: 'bi-check-circle-fill text-success',
+                warning: 'bi-exclamation-triangle-fill text-warning',
+                danger: 'bi-x-circle-fill text-danger',
+                info: 'bi-info-circle-fill text-info'
+            };
+            
+            toast.innerHTML = `
+                <i class="bi ${icons[type]} me-3" style="font-size: 1.5rem;"></i>
+                <div>
+                    <strong>${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Loading spinner
+        function showLoading() {
+            document.querySelector('.loading-spinner').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.querySelector('.loading-spinner').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
